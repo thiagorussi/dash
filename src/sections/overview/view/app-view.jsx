@@ -120,24 +120,11 @@ const defaultTheme = createTheme({
   }
 });
 
-
-
-
-  // const scrollToSection = (sectionId) => {
-  //   const sectionElement = document.getElementById(sectionId);
-  //   if (sectionElement) {
-  //     // Utilize scrollIntoView com opções adicionais para garantir que a seção seja centralizada ou alinhada corretamente.
-  //     sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-  //     setOpen(false); // Fechar o drawer após o scroll
-  //   }
-  // };
-
   const scrollToSection = (sectionId) => {
     const sectionElement = document.getElementById(sectionId);
   
     if (sectionElement) {
-      sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
       setOpen(false); // Fechar o drawer após o scroll
     }
   };
@@ -196,7 +183,7 @@ export default function AppView() {
                 : theme.palette.grey[900],
             flexGrow: 1,
             height: '100vh',
-            overflow: 'auto',
+            
           }}
         >
           <Toolbar />
@@ -208,7 +195,7 @@ export default function AppView() {
               <Grid item xs={12}>
                 <Box
                   sx={{
-                    position: 'fixed',
+                    position: '',
                     left: 0,
                     right: 0,
                     display: 'flex',
@@ -281,14 +268,14 @@ export default function AppView() {
 
                   </Box>
                 </Box>
-                <Paper sx={{ p: 10, display: 'flex', flexDirection: 'column', mt: 25, mb: 10 }}>
-                  a
+                <Paper id="home" sx={{ p: 10, display: 'flex', flexDirection: 'column', mt: 25, mb: 10 }}>
+                  aasasa
                 </Paper>
-                <Paper sx={{ p: 10, display: 'flex', flexDirection: 'column', mb: 10 }}>
+                <Paper id="numbers" sx={{ p: 10, display: 'flex', flexDirection: 'column', mb: 10 }}>
                   b
                 </Paper>
                 <Box>
-                  <Paper sx={{ p: 10, display: 'flex', flexDirection: 'column', mb: 10 }}>
+                  <Paper id="templates" sx={{ p: 10, display: 'flex', flexDirection: 'column', mb: 10 }}>
                     c
                   </Paper>
                 </Box>
