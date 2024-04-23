@@ -1,230 +1,304 @@
-import { faker } from '@faker-js/faker';
-
+import * as React from 'react';
+import { useState } from 'react';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import MuiDrawer from '@mui/material/Drawer';
+import MuiAppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Unstable_Grid2';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
 
-import Iconify from 'src/components/iconify';
+import Link from '@mui/material/Link';
+import List from '@mui/material/List';
 
-import AppTasks from '../app-tasks';
-import AppNewsUpdate from '../app-news-update';
-import AppOrderTimeline from '../app-order-timeline';
-import AppCurrentVisits from '../app-current-visits';
-import AppWebsiteVisits from '../app-website-visits';
-import AppWidgetSummary from '../app-widget-summary';
-import AppTrafficBySite from '../app-traffic-by-site';
-import AppCurrentSubject from '../app-current-subject';
-import AppConversionRates from '../app-conversion-rates';
+
+
+import Button from '@mui/material/Button';
+
+
+
+
+
+
+import Logo from '/public/assets/digitro-logo.svg';
+
+
+
+function Copyright(props) {
+  return (
+
+    <Typography variant="body2" color="text.secondary" align="center" {...props}>
+      {'Copyright © '}
+      <Link color="inherit" href="https://digitro.com/">
+        dígitro
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
+
+const drawerWidth = 240;
+
+
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    '& .MuiDrawer-paper': {
+      position: 'relative',
+      whiteSpace: 'nowrap',
+      width: drawerWidth,
+      transition: theme.transitions.create('width', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      boxSizing: 'border-box',
+      ...(!open && {
+        overflowX: 'hidden',
+        transition: theme.transitions.create('width', {
+          easing: theme.transitions.easing.sharp,
+          duration: theme.transitions.duration.leavingScreen,
+        }),
+        width: theme.spacing(7),
+        [theme.breakpoints.up('sm')]: {
+          width: theme.spacing(9),
+        },
+      }),
+    },
+  }),
+);
+
+
+// TODO remove, this demo shouldn't need to reset the theme.
+
+const defaultTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#1565c0', // Um azul vibrante e moderno
+    },
+    secondary: {
+      main: '#ff4081', // Um rosa marcante para complementar o azul
+    },
+  },
+  shape: {
+    borderRadius: 12, // Bordas mais arredondadas para todos os componentes
+  },
+  typography: {
+    fontFamily: '"Roboto", sans-serif',
+    button: {
+      textTransform: 'none', // Removendo a transformação de texto em maiúsculas nos botões
+    }
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10, // Ainda mais arredondado para botões
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16, // Aumentando as bordas para cartões
+        }
+      }
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          borderRadius: 12, // Campos de texto com bordas arredondadas
+        }
+      }
+    },
+  }
+});
+
+
+
+
+  // const scrollToSection = (sectionId) => {
+  //   const sectionElement = document.getElementById(sectionId);
+  //   if (sectionElement) {
+  //     // Utilize scrollIntoView com opções adicionais para garantir que a seção seja centralizada ou alinhada corretamente.
+  //     sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  //     setOpen(false); // Fechar o drawer após o scroll
+  //   }
+  // };
+
+  const scrollToSection = (sectionId) => {
+    const sectionElement = document.getElementById(sectionId);
+  
+    if (sectionElement) {
+      sectionElement.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+      setOpen(false); // Fechar o drawer após o scroll
+    }
+  };
+
+
 
 // ----------------------------------------------------------------------
 
 export default function AppView() {
+  const [open, setOpen] = React.useState(false);
+
+  
+
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
         Hi, Welcome back 👋
       </Typography>
 
-      <Grid container spacing={3}>
+      {/* <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Weekly Sales"
-            total={714000}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
+          a
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="New Users"
-            total={1352831}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-          />
+          b
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Item Orders"
-            total={1723315}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
-          />
+          c
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Bug Reports"
-            total={234}
-            color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
-          />
+          e
+
         </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppWebsiteVisits
-            title="Website Visits"
-            subheader="(+43%) than last year"
-            chart={{
-              labels: [
-                '01/01/2003',
-                '02/01/2003',
-                '03/01/2003',
-                '04/01/2003',
-                '05/01/2003',
-                '06/01/2003',
-                '07/01/2003',
-                '08/01/2003',
-                '09/01/2003',
-                '10/01/2003',
-                '11/01/2003',
-              ],
-              series: [
-                {
-                  name: 'Team A',
-                  type: 'column',
-                  fill: 'solid',
-                  data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30],
-                },
-                {
-                  name: 'Team B',
-                  type: 'area',
-                  fill: 'gradient',
-                  data: [44, 55, 41, 67, 22, 43, 21, 41, 56, 27, 43],
-                },
-                {
-                  name: 'Team C',
-                  type: 'line',
-                  fill: 'solid',
-                  data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39],
-                },
-              ],
-            }}
-          />
+        <Grid xs={12} sm={6} md={20}>
+          f
+
         </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
-          <AppCurrentVisits
-            title="Current Visits"
-            chart={{
-              series: [
-                { label: 'America', value: 4344 },
-                { label: 'Asia', value: 5435 },
-                { label: 'Europe', value: 1443 },
-                { label: 'Africa', value: 4443 },
-              ],
-            }}
-          />
-        </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppConversionRates
-            title="Conversion Rates"
-            subheader="(+43%) than last year"
-            chart={{
-              series: [
-                { label: 'Italy', value: 400 },
-                { label: 'Japan', value: 430 },
-                { label: 'China', value: 448 },
-                { label: 'Canada', value: 470 },
-                { label: 'France', value: 540 },
-                { label: 'Germany', value: 580 },
-                { label: 'South Korea', value: 690 },
-                { label: 'Netherlands', value: 1100 },
-                { label: 'United States', value: 1200 },
-                { label: 'United Kingdom', value: 1380 },
-              ],
-            }}
-          />
-        </Grid>
+      </Grid> */}
 
-        <Grid xs={12} md={6} lg={4}>
-          <AppCurrentSubject
-            title="Current Subject"
-            chart={{
-              categories: ['English', 'History', 'Physics', 'Geography', 'Chinese', 'Math'],
-              series: [
-                { name: 'Series 1', data: [80, 50, 30, 40, 100, 20] },
-                { name: 'Series 2', data: [20, 30, 40, 80, 20, 80] },
-                { name: 'Series 3', data: [44, 76, 78, 13, 43, 10] },
-              ],
-            }}
-          />
-        </Grid>
+      <Box sx={{ display: 'flex' }}>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppNewsUpdate
-            title="News Update"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: faker.person.jobTitle(),
-              description: faker.commerce.productDescription(),
-              image: `/assets/images/covers/cover_${index + 1}.jpg`,
-              postedAt: faker.date.recent(),
-            }))}
-          />
-        </Grid>
 
-        <Grid xs={12} md={6} lg={4}>
-          <AppOrderTimeline
-            title="Order Timeline"
-            list={[...Array(5)].map((_, index) => ({
-              id: faker.string.uuid(),
-              title: [
-                '1983, orders, $4220',
-                '12 Invoices have been paid',
-                'Order #37745 from September',
-                'New order placed #XF-2356',
-                'New order placed #XF-2346',
-              ][index],
-              type: `order${index + 1}`,
-              time: faker.date.past(),
-            }))}
-          />
-        </Grid>
+        
+        <Box
+          component="main"
+          sx={{
+            backgroundColor: (theme) =>
+              theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+            flexGrow: 1,
+            height: '100vh',
+            overflow: 'auto',
+          }}
+        >
+          <Toolbar />
+          <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
+            <Grid container spacing={3}>
 
-        <Grid xs={12} md={6} lg={4}>
-          <AppTrafficBySite
-            title="Traffic by Site"
-            list={[
-              {
-                name: 'FaceBook',
-                value: 323234,
-                icon: <Iconify icon="eva:facebook-fill" color="#1877F2" width={32} />,
-              },
-              {
-                name: 'Google',
-                value: 341212,
-                icon: <Iconify icon="eva:google-fill" color="#DF3E30" width={32} />,
-              },
-              {
-                name: 'Linkedin',
-                value: 411213,
-                icon: <Iconify icon="eva:linkedin-fill" color="#006097" width={32} />,
-              },
-              {
-                name: 'Twitter',
-                value: 443232,
-                icon: <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={32} />,
-              },
-            ]}
-          />
-        </Grid>
 
-        <Grid xs={12} md={6} lg={8}>
-          <AppTasks
-            title="Tasks"
-            list={[
-              { id: '1', name: 'Create FireStone Logo' },
-              { id: '2', name: 'Add SCSS and JS files if required' },
-              { id: '3', name: 'Stakeholder Meeting' },
-              { id: '4', name: 'Scoping & Estimations' },
-              { id: '5', name: 'Sprint Showcase' },
-            ]}
-          />
-        </Grid>
-      </Grid>
+              {/* CADASTRO DE NÚMEROS */}
+              <Grid item xs={12}>
+                <Box
+                  sx={{
+                    position: 'fixed',
+                    left: 0,
+                    right: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    mb: 2,
+
+
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      mb: 2,
+                    }}
+                  >
+                    <Button
+                      sx={{
+                        width: 200,
+                        height: 150,
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        padding: '12px',
+                        mr: 2,
+                      }}
+                      variant="contained"
+                      onClick={() => scrollToSection('home')}
+                    >
+                      HOME
+                      
+                    </Button>
+
+                    <Button
+                      sx={{
+                        width: 200, // Define a largura do botão
+                        height: 150, // Define a altura do botão para torná-lo quadrado
+                        flexDirection: 'column', // Organiza o conteúdo em coluna (ícone em cima, texto embaixo)
+                        justifyContent: 'center', // Centraliza o conteúdo verticalmente
+                        alignItems: 'center', // Centraliza o conteúdo horizontalmente
+                        padding: '12px', // Ajusta o preenchimento para garantir que o conteúdo não esteja muito apertado
+                        mr: 2, // Adiciona um espaço de 2 unidades entre cada item
+
+                      }}
+                      variant="contained"
+                      onClick={() => scrollToSection('numbers')}
+                    >
+                      CADASTRAR WHATSAPP
+                      
+                    </Button>
+
+                    <Button
+                      sx={{
+                        width: 200, // Define a largura do botão
+                        height: 150, // Define a altura do botão para torná-lo quadrado
+                        flexDirection: 'column', // Organiza o conteúdo em coluna (ícone em cima, texto embaixo)
+                        justifyContent: 'center', // Centraliza o conteúdo verticalmente
+                        alignItems: 'center', // Centraliza o conteúdo horizontalmente
+                        padding: '12px', // Ajusta o preenchimento para garantir que o conteúdo não esteja muito apertado
+                        mr: 2, // Adiciona um espaço de 2 unidades entre cada item
+                      }}
+                      variant="contained"
+                      onClick={() => scrollToSection('templates')}
+                    >
+                      TEMPLATES
+                      
+                    </Button>
+
+                  </Box>
+                </Box>
+                <Paper sx={{ p: 10, display: 'flex', flexDirection: 'column', mt: 25, mb: 10 }}>
+                  a
+                </Paper>
+                <Paper sx={{ p: 10, display: 'flex', flexDirection: 'column', mb: 10 }}>
+                  b
+                </Paper>
+                <Box>
+                  <Paper sx={{ p: 10, display: 'flex', flexDirection: 'column', mb: 10 }}>
+                    c
+                  </Paper>
+                </Box>
+
+              </Grid>
+            </Grid>
+            
+          </Container>
+        </Box>
+      </Box>
     </Container>
   );
 }

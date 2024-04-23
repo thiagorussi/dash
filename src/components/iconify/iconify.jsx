@@ -14,7 +14,9 @@ const Iconify = forwardRef(({ icon, width = 20, sx, ...other }, ref) => (
     icon={icon}
     sx={{ width, height: width, ...sx }}
     {...other}
+  
   />
+  
 ));
 
 Iconify.propTypes = {
